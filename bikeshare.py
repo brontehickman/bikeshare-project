@@ -113,20 +113,26 @@ def snapshot(df):
     """
     step = 0
     # initial user input
-    display = input('Would you like to see a snapshot of the raw data? Input yes or no.\n').lower()
-    # if input invalid, give the user another chance to input
-    if display not in ('yes', 'no'):
-        display = input('Invalid option chosen. Input yes or no.\n').lower()
-    # loop through displaying the data in 5-row increments
-    while display == 'yes':
-        raw_data = df.iloc[step:step+5, : ]
-        step += 5
-        # print data, ensuring all columns are displayed
-        pd.set_option('display.max_columns', 13)
-        print(raw_data)
-        display = input('Would you like to see more rows of the raw data? Input yes or no.\n').lower()
+    while True:
+        display = input('Would you like to see a snapshot of the raw data? Input yes or no.\n').lower()
         # if input invalid, give the user another chance to input
         if display not in ('yes', 'no'):
             print('Invalid option chosen.')
-            snapshot(df)
+            continue
+        # loop through displaying the data in 5-row increments
+        elif display == 'yes':
+            while True:
+                raw_data = df.iloc[step:step+5, : ]
+                step += 5
+                # print data, ensuring all columns are displayed
+                pd.set_option('display.max_columns', 13)
+                print(raw_data)
+                display = input('Would you like to see more rows of the raw data? Input yes or no.\n').lower()
+                # if input invalid, give the user another chance to input
+                if display not in ('yes', 'no'):
+                    print('Invalid option chosen.')
+                    continue
+                elif display == 'no':
+                    break
+        break
 snapshot(df)
