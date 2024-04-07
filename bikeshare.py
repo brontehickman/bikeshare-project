@@ -6,6 +6,9 @@ CITY_DATA = { 'chicago': 'chicago.csv',
               'new york city': 'new_york_city.csv',
               'washington': 'washington.csv' }
 
+# lists required for data display
+month_names = ['January', 'February', 'March', 'April', 'May', 'June']
+
 print('Hello! Let\'s explore some US bikeshare data!')
 # get user input for city (chicago, new york city, washington).
 city = input('Would you like to see data for Chicago, New York City, or Washington?\n').lower()
@@ -18,7 +21,6 @@ df = pd.read_csv(CITY_DATA[city])
 df['Start Time'] = pd.to_datetime(df['Start Time'])
 df['month'] = df['Start Time'].dt.month
 df['day_of_week'] = df['Start Time'].dt.weekday_name
-month_names = ['January', 'February', 'March', 'April', 'May', 'June']
 
 # get user input for variable to filter by
 filt = input('Would you like to filter by month, day, or neither?\n').lower()
@@ -113,20 +115,26 @@ def snapshot(df):
     """
     step = 0
     # initial user input
-    display = input('Would you like to see a snapshot of the raw data? Input yes or no.\n').lower()
-    # if input invalid, give the user another chance to input
-    if display not in ('yes', 'no'):
-        display = input('Invalid option chosen. Input yes or no.\n').lower()
-    # loop through displaying the data in 5-row increments
-    while display == 'yes':
-        raw_data = df.iloc[step:step+5, : ]
-        step += 5
-        # print data, ensuring all columns are displayed
-        pd.set_option('display.max_columns', 13)
-        print(raw_data)
-        display = input('Would you like to see more rows of the raw data? Input yes or no.\n').lower()
+    while True:
+        display = input('Would you like to see a snapshot of the raw data? Input yes or no.\n').lower()
         # if input invalid, give the user another chance to input
         if display not in ('yes', 'no'):
             print('Invalid option chosen.')
-            snapshot(df)
+            continue
+        # loop through displaying the data in 5-row increments
+        elif display == 'yes':
+            while True:
+                raw_data = df.iloc[step:step+5, : ]
+                step += 5
+                # print data, ensuring all columns are displayed
+                pd.set_option('display.max_columns', 13)
+                print(raw_data)
+                display = input('Would you like to see more rows of the raw data? Input yes or no.\n').lower()
+                # if input invalid, give the user another chance to input
+                if display not in ('yes', 'no'):
+                    print('Invalid option chosen.')
+                    continue
+                elif display == 'no':
+                    break
+        break
 snapshot(df)
