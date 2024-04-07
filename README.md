@@ -25,6 +25,7 @@ Lastly, the user is asked if they would like to see a **snapshot** of the raw da
 * chicago.csv
 * new_york_city.csv
 * washington.csv
+    * NOTE: fields _Gender_ and _Birth Year_ are not available in washington.csv, so some user information cannot be calculated.
 
 ### Credits
 It's important to give proper credit. Add links to any repo that inspired you or blogposts you consulted.
